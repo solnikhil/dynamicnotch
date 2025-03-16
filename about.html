@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Dynamic Navbar Demo</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <style>
+    /* Reset default styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Roboto', sans-serif; background: #f7f7f7; color: #333; line-height: 1.6; }
+    /* Dynamic Island Navbar styling */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #000;
+      width: 200px;
+      height: 50px;
+      border-radius: 9999px;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      overflow: visible;
+      transition: width 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
+                  height 0.6s cubic-bezier(0.25,0.46,0.45,0.94),
+                  transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+      cursor: pointer;
+      color: #fff;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 0 8px rgba(0,0,0,0.05);
+      z-index: 1000;
+    }
+    .navbar:hover, .navbar.expanded { width: 600px; height: 80px; }
+    .navbar .title { margin-left: 10px; white-space: nowrap; opacity: 0; transition: opacity 0.2s ease-out; font-weight: 500; letter-spacing: 1px; }
+    .navbar:hover .title, .navbar.expanded .title { opacity: 1; transition: opacity 0.4s ease-in 0.1s; }
+    .navbar ul { list-style: none; margin-left: auto; display: flex; gap: 15px; opacity: 0; transition: opacity 0.3s ease 0.2s; }
+    .navbar:hover ul, .navbar.expanded ul { opacity: 1; transition: opacity 0.3s ease 0.2s; }
+    .navbar ul li a { color: #fff; text-decoration: none; font-size: 0.9em; padding: 5px; letter-spacing: 0.5px; font-weight: 400; }
+    /* Hero Section for About */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: url('https://picsum.photos/1600/900?random=20') no-repeat center center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .hero .hero-content { position: relative; z-index: 1; padding: 20px; }
+    .hero h1 { font-size: 3em; margin-bottom: 20px; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+    .hero p { font-size: 1.2em; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+    /* Content Section */
+    .content { padding: 40px 20px; text-align: center; }
+    .content h2 { margin-bottom: 20px; }
+    .content p { font-weight: 300; }
+    /* Footer Section */
+    .footer { padding: 20px; background-color: #333; color: #fff; text-align: center; }
+    .footer p { margin: 5px 0; }
+    .footer a { color: #fff; text-decoration: underline; }
+    @media (max-width: 480px) {
+      .navbar { width: 150px; }
+      .navbar:hover, .navbar.expanded { width: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Dynamic Island Navbar -->
+  <nav class="navbar">
+    <div class="title">Menu</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+  <!-- Hero Section for About Page -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>About Us</h1>
+      <p>Learn more about our Dynamic Navbar Demo project and our journey in modern web design.</p>
+    </div>
+  </section>
+  <!-- Main Content Section -->
+  <div class="content">
+    <h2>Our Story</h2>
+    <p>This demo project was created to showcase a dynamic island navbar with smooth transitions and a modern aesthetic. It demonstrates responsive design and includes various filler sections to provide a full-page demo experience.</p>
+  </div>
+  <!-- Footer Section -->
+  <footer class="footer">
+    <p>&copy; 2025 DynamicNotch Demo. All rights reserved. Created by Nikhil Solanki.</p>
+    <p>Discover more on <a href="https://github.com/solnikhil/dynamicnotch" target="_blank">GitHub</a>.</p>
+  </footer>
+  <!-- JavaScript for Navbar Toggle -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navbar = document.querySelector('.navbar');
+      navbar.addEventListener('click', function() {
+        navbar.classList.toggle('expanded');
+      });
+    });
+  </script>
+</body>
+</html> 

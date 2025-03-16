@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Dynamic Navbar Demo</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <style>
+    /* Reset some default styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f7f7f7;
+      color: #333;
+      line-height: 1.6;
+    }
+    /* Dynamic Island Navbar styling for a whiteish modern theme but with a dark notch */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #000;  /* Notch color remains black */
+      width: 200px; /* initial compact width */
+      height: 50px; /* static height */
+      border-radius: 9999px;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      overflow: visible;
+      transition: width 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+      cursor: pointer;
+      color: #fff; 
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1), 0 0 8px rgba(0,0,0,0.05);
+      z-index: 1000;
+    }
+    /* Expanded state on hover or when toggled */
+    .navbar:hover, .navbar.expanded {
+      width: 600px;
+      height: 80px;
+    }
+    /* Title text styling */
+    .navbar .title {
+      margin-left: 10px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .navbar:hover .title, .navbar.expanded .title {
+      opacity: 1;
+      transition: opacity 0.4s ease-in 0.1s;
+    }
+    /* Navigation links styling */
+    .navbar ul {
+      list-style: none;
+      margin-left: auto;
+      display: flex;
+      gap: 15px;
+      opacity: 0;
+      transition: opacity 0.3s ease 0.2s;
+    }
+    .navbar:hover ul, .navbar.expanded ul {
+      opacity: 1;
+      transition: opacity 0.3s ease 0.2s;
+    }
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9em;
+      padding: 5px;
+      letter-spacing: 0.5px;
+      font-weight: 400;
+    }
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: url('https://picsum.photos/1600/900?random=2') no-repeat center center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .hero .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 20px;
+    }
+    .hero h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    }
+    .hero p {
+      font-size: 1.2em;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    /* Main Content Section */
+    .content {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .content h1 {
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    .content p {
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    /* Demo Features Section styling */
+    .demo-features {
+      margin: 40px auto;
+      padding: 20px;
+      max-width: 800px;
+      text-align: center;
+      color: #333;
+    }
+    .demo-features h2 {
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    .demo-features ul {
+      list-style: disc inside;
+      text-align: left;
+      margin: 0 auto 20px;
+      max-width: 400px;
+    }
+    .demo-features ul li {
+      margin: 10px 0;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .github-btn {
+      display: inline-block;
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+    .github-btn:hover {
+      background-color: #555;
+    }
+    /* Gallery Section */
+    .gallery {
+      padding: 40px 20px;
+      background: #fafafa;
+    }
+    .gallery h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    /* Testimonials Section */
+    .testimonials {
+      padding: 40px 20px;
+      background: #fff;
+      text-align: center;
+    }
+    .testimonials h2 {
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    .testimonials-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .testimonial {
+      max-width: 300px;
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .testimonial p {
+      font-style: italic;
+    }
+    .testimonial span {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    /* Footer Section */
+    .footer {
+      padding: 20px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+    .footer a {
+      color: #fff;
+      text-decoration: underline;
+    }
+    /* Responsive adjustments for smaller screens */
+    @media (max-width: 480px) {
+      .navbar {
+        width: 150px;
+      }
+      .navbar:hover, .navbar.expanded {
+        width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Dynamic Island Navbar -->
+  <nav class="navbar">
+    <div class="title">Menu</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to Dynamic Navbar Demo</h1>
+      <p>Explore our advanced design, smooth animations, and dynamic interactions.</p>
+    </div>
+  </section>
+  <!-- Main Content Section -->
+  <div class="content">
+    <h1>About This Demo</h1>
+    <p>This demo website showcases the power of a dynamic island navbar with a modern aesthetic.
+       Enjoy responsive layouts, smooth transitions, and plenty of extra content designed to impress.</p>
+  </div>
+  <!-- Demo Features Section -->
+  <div class="demo-features">
+    <h2>Features</h2>
+    <ul>
+      <li>Dynamic island style navbar with smooth transitions</li>
+      <li>Responsive layout for various devices</li>
+      <li>Modern typography using Roboto</li>
+      <li>Click to lock the expanded state for demo purposes</li>
+      <li>Full-page design with hero, gallery, and testimonials sections</li>
+      <li>Random images for dynamic content appearance</li>
+    </ul>
+    <a href="https://github.com/solnikhil/dynamicnotch" class="github-btn" target="_blank">View on GitHub</a>
+  </div>
+  <!-- Gallery Section -->
+  <section class="gallery">
+    <h2>Gallery</h2>
+    <div class="gallery-grid">
+      <img src="https://picsum.photos/seed/1/400/300" alt="Random Image 1">
+      <img src="https://picsum.photos/seed/2/400/300" alt="Random Image 2">
+      <img src="https://picsum.photos/seed/3/400/300" alt="Random Image 3">
+      <img src="https://picsum.photos/seed/4/400/300" alt="Random Image 4">
+      <img src="https://picsum.photos/seed/5/400/300" alt="Random Image 5">
+      <img src="https://picsum.photos/seed/6/400/300" alt="Random Image 6">
+    </div>
+  </section>
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <h2>What Our Users Say</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <p>"Amazing dynamic navbar demo! It completely transformed my view on modern web design."</p>
+        <span>- Alex Doe</span>
+      </div>
+      <div class="testimonial">
+        <p>"Smooth transitions, full-page sections, and an intuitive layout. Simply stunning!"</p>
+        <span>- Jamie Smith</span>
+      </div>
+      <div class="testimonial">
+        <p>"The extra features and modern aesthetic make this demo truly stand out in today's UI trends."</p>
+        <span>- Chris Lee</span>
+      </div>
+    </div>
+  </section>
+  <!-- Footer Section -->
+  <footer class="footer">
+    <p>&copy; 2025 DynamicNotch Demo. All rights reserved. Created by Nikhil Solanki.</p>
+    <p>Discover more on <a href="https://github.com/solnikhil/dynamicnotch" target="_blank">GitHub</a>.</p>
+  </footer>
+  <!-- JavaScript to toggle the expanded state on click -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navbar = document.querySelector('.navbar');
+      navbar.addEventListener('click', function() {
+        navbar.classList.toggle('expanded');
+      });
+    });
+  </script>
+</body>
+</html> 
